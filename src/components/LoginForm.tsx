@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import { mockUsers } from "../utils/mockUsers";
 
 const LoginForm = () => {
@@ -7,6 +8,7 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,7 +22,7 @@ const LoginForm = () => {
       return;
     }
 
-    localStorage.setItem("userRole", user.role);
+    login({ username: user.username, role: user.role });
     navigate("/");
   };
 
