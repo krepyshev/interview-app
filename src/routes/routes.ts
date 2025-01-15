@@ -2,7 +2,7 @@ import { lazy } from "react";
 
 const Categories = lazy(() => import("../pages/Categories"));
 const Questions = lazy(() => import("../pages/Questions"));
-const Login = lazy(() => import("../pages/Login"));
+const Login = lazy(() => import("../pages/Login/Login"));
 
 export const routes = [
   { path: "/", component: Categories },
