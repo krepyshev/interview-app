@@ -2,10 +2,12 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { routes } from "./routes/routes";
 import PrivateRoute from "./components/PrivateRoute";
 import { Suspense } from "react";
+import Header from "./components/Header";
 
 function App() {
   return (
     <Router>
+      <Header />
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
           {routes.map(

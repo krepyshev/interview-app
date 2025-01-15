@@ -59,3 +59,36 @@ li {
 li:hover {
   background-color: #f1f1f1;
 }
+
+header {
+  background-color: #282c34;
+  padding: 10px 20px;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 20px;
+}
+
+header nav a,
+header nav button {
+  color: white;
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+header nav button {
+  text-decoration: underline;
+}
+
+header nav a:hover,
+header nav button:hover {
+  opacity: 0.8;
+}
