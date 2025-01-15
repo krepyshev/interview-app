@@ -4,6 +4,7 @@ const Categories = lazy(() => import("../pages/Categories/Categories"));
 const Questions = lazy(() => import("../pages/Questions/Questions"));
 const Login = lazy(() => import("../pages/Login/Login"));
 const Admin = lazy(() => import("../pages/Admin/Admin"));
+const Register = lazy(() => import("../pages/Register/Register"));
 
 type Route = {
   path: string;
@@ -20,6 +21,7 @@ export const routes: Route[] = [
     private: true,
   },
   { path: "/login", component: Login },
+  { path: "/register", component: Register },
   {
     path: "/admin",
     component: Admin,
