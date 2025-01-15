@@ -20,3 +20,9 @@ export const saveQuestion = (question: Question) => {
 export const getQuestionsByCategory = (category: string): Question[] => {
   return getQuestions().filter((q) => q.category === category);
 };
+
+export const getCategories = (): string[] => {
+  const questions = getQuestions();
+  const categories = questions.map((q) => q.category);
+  return Array.from(new Set(categories)); // Убираем дубликаты
+};

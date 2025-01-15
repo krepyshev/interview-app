@@ -1,7 +1,7 @@
 import { lazy } from "react";
 
-const Categories = lazy(() => import("../pages/Categories"));
-const Questions = lazy(() => import("../pages/Questions"));
+const Categories = lazy(() => import("../pages/Categories/Categories"));
+const Questions = lazy(() => import("../pages/Questions/Questions"));
 const Login = lazy(() => import("../pages/Login/Login"));
 const Admin = lazy(() => import("../pages/Admin/Admin"));
 
