@@ -1,4 +1,5 @@
 version: "3.8"
+
 services:
   frontend:
     build:
@@ -6,12 +7,25 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:80"
+<<<<<<< HEAD
+=======
+    volumes:
+      - .:/app
+    stdin_open: true
+    tty: true
+
+>>>>>>> 2430423db384e53463169ee9bdce68b207bf5042
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
     ports:
       - "4000:4000"
+<<<<<<< HEAD
+=======
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/interviewApp
+>>>>>>> 2430423db384e53463169ee9bdce68b207bf5042
 
   mongo:
     image: mongo:5.0

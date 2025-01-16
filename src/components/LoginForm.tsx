@@ -1,33 +1,38 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
-import { mockUsers } from "../utils/mockUsers";
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { login } = useAuth();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const user = mockUsers.find(
-      (u) => u.username === username && u.password === password
-    );
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
 
-    if (!user) {
-      setError("Неверное имя пользователя или пароль!");
-      return;
+      const data = await response.json();
+      if (!response.ok) {
+        setError(data.error || "Ошибка авторизации");
+        return;
+      }
+
+      localStorage.setItem("user", JSON.stringify(data));
+      navigate("/");
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (err) {
+      setError("Ошибка сервера");
     }
-
-    login({ username: user.username, role: user.role });
-    navigate("/");
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleLogin}>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <div style={{ marginBottom: "15px" }}>
         <label style={{ display: "block", marginBottom: "5px" }}>
