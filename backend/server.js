@@ -12,7 +12,8 @@ app.use(bodyParser.json());
 
 // Подключение к MongoDB
 mongoose
-  .connect("mongodb://localhost:27017/interviewApp", {
+  .connect("mongodb://mongo:27017/interviewApp", {
+    // Важно указать 'mongo', если это имя сервиса в docker-compose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -51,17 +52,25 @@ app.post("/register", async (req, res) => {
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
+  console.log("Login request received:", { username, password });
+
   if (!username || !password) {
+    console.log("Missing fields in request");
     return res.status(400).json({ error: "Все поля обязательны" });
   }
 
   try {
     const user = await User.findOne({ username, password });
+    console.log("User found in database:", user);
+
     if (!user) {
+      console.log("Invalid credentials");
       return res.status(401).json({ error: "Неверные учетные данные" });
     }
+
     res.status(200).json({ username: user.username, role: user.role });
   } catch (err) {
+    console.error("Database error:", err);
     res.status(500).json({ error: "Ошибка базы данных" });
   }
 });
