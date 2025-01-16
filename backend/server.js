@@ -42,9 +42,12 @@ app.post("/register", async (req, res) => {
     await newUser.save();
     res.status(201).json({ message: "Пользователь успешно зарегистрирован" });
   } catch (err) {
-    res
-      .status(400)
-      .json({ error: "Пользователь с таким именем уже существует" });
+    if (err.code === 11000) {
+      return res
+        .status(400)
+        .json({ error: "Пользователь с таким именем уже существует" });
+    }
+    res.status(500).json({ error: "Ошибка базы данных" });
   }
 });
 

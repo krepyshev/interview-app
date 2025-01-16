@@ -1,104 +1,95 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-type User = {
-  username: string;
-  password: string;
-  role: "user";
-};
-
 const RegisterForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [role, setRole] = useState("user");
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const navigate = useNavigate();
 
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!username || !password || !confirmPassword) {
-      setError("Все поля обязательны для заполнения.");
-      return;
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password, role }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        setError(data.error || "Ошибка регистрации");
+        return;
+      }
+
+      setSuccess(data.message);
+      setError("");
+      setTimeout(() => navigate("/login"), 2000); // Перенаправление на страницу логина
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (err) {
+      setError("Ошибка сервера");
     }
-
-    if (password !== confirmPassword) {
-      setError("Пароли не совпадают.");
-      return;
-    }
-
-    const users: User[] = JSON.parse(localStorage.getItem("users") || "[]");
-
-    if (users.some((user) => user.username === username)) {
-      setError("Пользователь с таким именем уже существует.");
-      return;
-    }
-
-    const newUser: User = { username, password, role: "user" };
-    localStorage.setItem("users", JSON.stringify([...users, newUser]));
-
-    navigate("/login");
   };
 
   return (
-    <form
-      onSubmit={handleRegister}
-      style={{ maxWidth: "400px", margin: "0 auto" }}
-    >
+    <form onSubmit={handleRegister}>
       {error && <p style={{ color: "red" }}>{error}</p>}
+      {success && <p style={{ color: "green" }}>{success}</p>}
       <div style={{ marginBottom: "15px" }}>
-        <label>
-          Имя пользователя:
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            style={{
-              width: "100%",
-              padding: "10px",
-              marginTop: "5px",
-              fontSize: "16px",
-              border: "1px solid #ccc",
-              borderRadius: "4px",
-            }}
-          />
+        <label style={{ display: "block", marginBottom: "5px" }}>
+          Username:
         </label>
+        <input
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+          style={{
+            width: "100%",
+            padding: "10px",
+            fontSize: "16px",
+            border: "1px solid #ccc",
+            borderRadius: "4px",
+          }}
+        />
       </div>
       <div style={{ marginBottom: "15px" }}>
-        <label>
-          Пароль:
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            style={{
-              width: "100%",
-              padding: "10px",
-              marginTop: "5px",
-              fontSize: "16px",
-              border: "1px solid #ccc",
-              borderRadius: "4px",
-            }}
-          />
+        <label style={{ display: "block", marginBottom: "5px" }}>
+          Password:
         </label>
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          style={{
+            width: "100%",
+            padding: "10px",
+            fontSize: "16px",
+            border: "1px solid #ccc",
+            borderRadius: "4px",
+          }}
+        />
       </div>
       <div style={{ marginBottom: "15px" }}>
-        <label>
-          Подтверждение пароля:
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            style={{
-              width: "100%",
-              padding: "10px",
-              marginTop: "5px",
-              fontSize: "16px",
-              border: "1px solid #ccc",
-              borderRadius: "4px",
-            }}
-          />
-        </label>
+        <label style={{ display: "block", marginBottom: "5px" }}>Role:</label>
+        <select
+          value={role}
+          onChange={(e) => setRole(e.target.value)}
+          style={{
+            width: "100%",
+            padding: "10px",
+            fontSize: "16px",
+            border: "1px solid #ccc",
+            borderRadius: "4px",
+          }}
+        >
+          <option value="user">User</option>
+          <option value="admin">Admin</option>
+        </select>
       </div>
       <button
         type="submit"
@@ -112,7 +103,7 @@ const RegisterForm = () => {
           borderRadius: "4px",
         }}
       >
-        Зарегистрироваться
+        Register
       </button>
     </form>
   );
