@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/auth";
+import ThemeSwitcher from "./ThemeSwitcher";
 
 const Header = () => {
   const { user, logout } = useAuthStore();
@@ -25,6 +26,7 @@ const Header = () => {
           InterviewApp
         </Link>
       </div>
+      <ThemeSwitcher />
       <nav style={{ display: "flex", gap: "15px" }}>
         {user ? (
           <>

@@ -1,10 +1,10 @@
 # Stage 1: Build React app
 FROM node:20-alpine AS build
 WORKDIR /app
-COPY package*.json ./
-RUN npm install
+COPY package.json yarn.lock ./
+RUN yarn install
 COPY . .
-RUN npm run build
+RUN yarn build
 
 # Stage 2: Serve with Nginx
 FROM nginx:alpine
