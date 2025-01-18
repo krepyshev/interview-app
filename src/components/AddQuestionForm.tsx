@@ -5,7 +5,13 @@ interface Category {
   name: string;
 }
 
-const AddQuestionForm = () => {
+interface AddQuestionFormProps {
+  onQuestionAdded?: () => void;
+}
+
+const AddQuestionForm: React.FC<AddQuestionFormProps> = ({
+  onQuestionAdded,
+}) => {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
   const [category, setCategory] = useState("");
@@ -24,8 +30,7 @@ const AddQuestionForm = () => {
         }
         const data: Category[] = await response.json();
         setCategories(data);
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      } catch (err) {
+      } catch {
         setErrorMessage("Ошибка загрузки категорий");
       }
     };
@@ -61,18 +66,17 @@ const AddQuestionForm = () => {
         throw new Error("Ошибка при добавлении вопроса");
       }
 
-      // Очищаем форму и показываем сообщение об успехе
       setTitle("");
       setText("");
       setCategory("");
       setSuccessMessage("Вопрос успешно добавлен!");
       setTimeout(() => setSuccessMessage(""), 3000);
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        alert(err.message);
-      } else {
-        alert("Произошла неизвестная ошибка");
+
+      if (onQuestionAdded) {
+        onQuestionAdded();
       }
+    } catch {
+      setErrorMessage("Ошибка при добавлении вопроса");
     }
   };
 
@@ -81,43 +85,19 @@ const AddQuestionForm = () => {
       {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
       {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
       <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: "15px" }}>
-          <label>
-            Заголовок:
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              style={{
-                width: "100%",
-                padding: "10px",
-                marginTop: "5px",
-                fontSize: "16px",
-                border: "1px solid #ccc",
-                borderRadius: "4px",
-              }}
-            />
-          </label>
+        <div>
+          <label>Заголовок:</label>
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
         </div>
-        <div style={{ marginBottom: "15px" }}>
-          <label>
-            Текст:
-            <textarea
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              style={{
-                width: "100%",
-                padding: "10px",
-                marginTop: "5px",
-                fontSize: "16px",
-                border: "1px solid #ccc",
-                borderRadius: "4px",
-                minHeight: "100px",
-              }}
-            />
-          </label>
+        <div>
+          <label>Текст:</label>
+          <textarea value={text} onChange={(e) => setText(e.target.value)} />
         </div>
-        <div style={{ marginBottom: "15px" }}>
+        <div>
           <label>Категория:</label>
           <select
             value={category}
@@ -133,20 +113,7 @@ const AddQuestionForm = () => {
             ))}
           </select>
         </div>
-        <button
-          type="submit"
-          style={{
-            backgroundColor: "#4caf50",
-            color: "white",
-            border: "none",
-            padding: "10px 20px",
-            cursor: "pointer",
-            fontSize: "16px",
-            borderRadius: "4px",
-          }}
-        >
-          Добавить вопрос
-        </button>
+        <button type="submit">Добавить вопрос</button>
       </form>
     </div>
   );

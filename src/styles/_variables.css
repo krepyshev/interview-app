@@ -1,0 +1,18 @@
+:root {
+  /* Цветовая палитра */
+  --color-primary: #1e88e5;
+  --color-primary-hover: #1565c0;
+  --color-secondary: #757575;
+  --color-secondary-hover: #616161;
+  --color-background: #f5f5f5;
+  --color-text: #333333;
+  --color-error: #e53935;
+
+  /* Шрифты */
+  --font-family: "Raleway", sans-serif;
+  --font-size-default: 16px;
+
+  /* Закругления и тени */
+  --border-radius: 8px;
+  --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
