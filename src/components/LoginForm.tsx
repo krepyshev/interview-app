@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../store/auth";
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
@@ -11,11 +12,14 @@ const LoginForm = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/auth/login`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password }),
+        }
+      );
 
       const data = await response.json();
       if (!response.ok) {
@@ -23,7 +27,13 @@ const LoginForm = () => {
         return;
       }
 
+      // Сохраняем данные в глобальном состоянии через Zustand
+      useAuthStore.getState().setUser(data);
+
+      // Сохраняем данные в localStorage
       localStorage.setItem("user", JSON.stringify(data));
+
+      // Перенаправляем пользователя на главную страницу
       navigate("/");
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {

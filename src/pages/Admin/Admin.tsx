@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { saveQuestion } from "../../utils/questionsStorage";
-import { v4 as uuidv4 } from "uuid"; // Для генерации уникальных ID (установите uuid: `npm install uuid`)
 
 const Admin = () => {
   const [title, setTitle] = useState("");
@@ -8,7 +6,7 @@ const Admin = () => {
   const [category, setCategory] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!title || !text || !category) {
@@ -16,20 +14,39 @@ const Admin = () => {
       return;
     }
 
-    // Сохраняем вопрос в локальное хранилище
-    saveQuestion({
-      id: uuidv4(), // Генерируем уникальный ID
-      title,
-      text,
-      category,
-    });
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/questions`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title,
+            text,
+            category,
+          }),
+        }
+      );
 
-    // Очищаем форму и показываем сообщение об успехе
-    setTitle("");
-    setText("");
-    setCategory("");
-    setSuccessMessage("Вопрос успешно добавлен!");
-    setTimeout(() => setSuccessMessage(""), 3000); // Убираем сообщение через 3 секунды
+      if (!response.ok) {
+        throw new Error("Ошибка при добавлении вопроса");
+      }
+
+      // Очищаем форму и показываем сообщение об успехе
+      setTitle("");
+      setText("");
+      setCategory("");
+      setSuccessMessage("Вопрос успешно добавлен!");
+      setTimeout(() => setSuccessMessage(""), 3000);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        alert(err.message);
+      } else {
+        alert("Произошла неизвестная ошибка");
+      }
+    }
   };
 
   return (
