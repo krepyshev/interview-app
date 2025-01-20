@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const authRoutes = require("./routes/auth");
 const questionRoutes = require("./routes/questions");
 const categoryRoutes = require("./routes/categories");
+const uploadRoutes = require("./routes/upload");
 
 const app = express();
 const PORT = 4000;
@@ -27,6 +28,7 @@ mongoose
 app.use("/auth", authRoutes);
 app.use("/questions", questionRoutes);
 app.use("/categories", categoryRoutes);
+app.use("/upload", uploadRoutes);
 
 // Запуск сервера
 app.listen(PORT, () => {

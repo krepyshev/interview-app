@@ -3,11 +3,12 @@ import AddQuestionForm from "../../components/AddQuestionForm";
 import AddCategoryForm from "../../components/AddCategoryForm";
 import QuestionsTable from "../../components/QuestionsTable";
 import CategoriesTable from "../../components/CategoriesTable";
+import MassUploadForm from "../../components/MassUploadForm";
 
 const Admin = () => {
-  const [activeTab, setActiveTab] = useState<"questions" | "categories">(
-    "questions"
-  );
+  const [activeTab, setActiveTab] = useState<
+    "questions" | "categories" | "upload"
+  >("questions");
   const [refreshCategories, setRefreshCategories] = useState(false);
   const [refreshQuestions, setRefreshQuestions] = useState(false);
 
@@ -25,6 +26,9 @@ const Admin = () => {
           Вопросы
         </button>
         <button onClick={() => setActiveTab("categories")}>Категории</button>
+        <button onClick={() => setActiveTab("upload")}>
+          Массовая загрузка
+        </button>
       </div>
 
       {activeTab === "questions" && (
@@ -39,6 +43,7 @@ const Admin = () => {
           <CategoriesTable refresh={refreshCategories} />
         </>
       )}
+      {activeTab === "upload" && <MassUploadForm />}
     </div>
   );
 };
