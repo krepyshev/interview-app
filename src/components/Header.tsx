@@ -3,7 +3,8 @@ import { useAuthStore } from "../store/auth";
 import ThemeSwitcher from "./ThemeSwitcher";
 
 const Header = () => {
-  const { user, logout } = useAuthStore();
+  const user = useAuthStore((state) => state.user);
+  const logout = useAuthStore((state) => state.logout);
   const navigate = useNavigate();
 
   const handleLogout = () => {

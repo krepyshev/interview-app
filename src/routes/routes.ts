@@ -7,11 +7,11 @@ const Admin = lazy(() => import("../pages/Admin/Admin"));
 const Register = lazy(() => import("../pages/Register/Register"));
 const CategoryAdmin = lazy(() => import("../pages/Admin/CategoryAdmin"));
 
-type Route = {
+export type Route = {
   path: string;
   component: React.ComponentType;
-  private?: boolean;
-  role?: "user" | "admin";
+  private?: boolean; // Защищенный маршрут
+  role?: "user" | "admin"; // Роль доступа
 };
 
 export const routes: Route[] = [
@@ -19,7 +19,7 @@ export const routes: Route[] = [
   {
     path: "/questions/:category",
     component: Questions,
-    private: true,
+    private: true, // Требуется авторизация
   },
   { path: "/login", component: Login },
   { path: "/register", component: Register },
@@ -27,12 +27,12 @@ export const routes: Route[] = [
     path: "/admin",
     component: Admin,
     private: true,
-    role: "admin",
+    role: "admin", // Только для администраторов
   },
   {
     path: "/admin/categories",
     component: CategoryAdmin,
     private: true,
-    role: "admin",
+    role: "admin", // Только для администраторов
   },
 ];
