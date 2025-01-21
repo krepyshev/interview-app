@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/auth";
 import ThemeSwitcher from "./ThemeSwitcher";
+import Button from "./Button/Button";
 
 const Header = () => {
   const user = useAuthStore((state) => state.user);
@@ -46,19 +47,9 @@ const Header = () => {
                 Админка
               </Link>
             )}
-            <button
-              onClick={handleLogout}
-              style={{
-                backgroundColor: "red",
-                color: "#fff",
-                border: "none",
-                borderRadius: "5px",
-                padding: "5px 10px",
-                cursor: "pointer",
-              }}
-            >
+            <Button variant="secondary" onClick={handleLogout}>
               Выйти
-            </button>
+            </Button>
           </>
         ) : (
           <>
