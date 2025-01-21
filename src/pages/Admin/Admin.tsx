@@ -1,9 +1,11 @@
 import { useState } from "react";
 import AddQuestionForm from "../../components/AddQuestionForm";
 import AddCategoryForm from "../../components/AddCategoryForm";
-import QuestionsTable from "../../components/QuestionsTable";
-import CategoriesTable from "../../components/CategoriesTable";
+import QuestionsTable from "../../components/QuestionsTable/QuestionsTable";
+import CategoriesTable from "../../components/CategoriesTable/CategoriesTable";
 import MassUploadForm from "../../components/MassUploadForm";
+import AdminLayout from "../../layouts/AdminLayout/AdminLayout";
+import styles from "./Admin.module.scss";
 
 const Admin = () => {
   const [activeTab, setActiveTab] = useState<
@@ -16,15 +18,10 @@ const Admin = () => {
   const refreshQuestionsTable = () => setRefreshQuestions((prev) => !prev);
 
   return (
-    <div style={{ maxWidth: "600px", margin: "50px auto" }}>
-      <h1>Admin Panel</h1>
-      <div style={{ display: "flex", marginBottom: "20px" }}>
-        <button
-          onClick={() => setActiveTab("questions")}
-          style={{ marginRight: "10px" }}
-        >
-          Вопросы
-        </button>
+    <AdminLayout>
+      <h1 className={styles.title}>Admin Panel</h1>
+      <div className={styles.tabButtons}>
+        <button onClick={() => setActiveTab("questions")}>Вопросы</button>
         <button onClick={() => setActiveTab("categories")}>Категории</button>
         <button onClick={() => setActiveTab("upload")}>
           Массовая загрузка
@@ -44,7 +41,7 @@ const Admin = () => {
         </>
       )}
       {activeTab === "upload" && <MassUploadForm />}
-    </div>
+    </AdminLayout>
   );
 };
 

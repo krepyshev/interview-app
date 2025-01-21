@@ -5,7 +5,6 @@ const Questions = lazy(() => import("../pages/Questions/Questions"));
 const Login = lazy(() => import("../pages/Login/Login"));
 const Admin = lazy(() => import("../pages/Admin/Admin"));
 const Register = lazy(() => import("../pages/Register/Register"));
-const CategoryAdmin = lazy(() => import("../pages/Admin/CategoryAdmin"));
 
 export type Route = {
   path: string;
@@ -26,12 +25,6 @@ export const routes: Route[] = [
   {
     path: "/admin",
     component: Admin,
-    private: true,
-    role: "admin", // Только для администраторов
-  },
-  {
-    path: "/admin/categories",
-    component: CategoryAdmin,
     private: true,
     role: "admin", // Только для администраторов
   },

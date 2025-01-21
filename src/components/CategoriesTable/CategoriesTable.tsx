@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import styles from "./CategoriesTable.module.scss";
 
 interface Category {
   _id: string;
@@ -24,9 +25,7 @@ const CategoriesTable = ({ refresh }: { refresh: boolean }) => {
         const data: Category[] = await response.json();
         setCategories(data);
       } catch (err) {
-        if (err instanceof Error) {
-          setError(err.message);
-        }
+        setError((err as Error).message);
       } finally {
         setLoading(false);
       }
@@ -39,18 +38,14 @@ const CategoriesTable = ({ refresh }: { refresh: boolean }) => {
     try {
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/categories/${id}`,
-        {
-          method: "DELETE",
-        }
+        { method: "DELETE" }
       );
       if (!response.ok) {
         throw new Error("Не удалось удалить категорию");
       }
       setCategories((prev) => prev.filter((category) => category._id !== id));
     } catch (err) {
-      if (err instanceof Error) {
-        alert(err.message);
-      }
+      alert((err as Error).message);
     }
   };
 
@@ -58,26 +53,34 @@ const CategoriesTable = ({ refresh }: { refresh: boolean }) => {
   if (error) return <div>Ошибка: {error}</div>;
 
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Название</th>
-          <th>Действия</th>
-        </tr>
-      </thead>
-      <tbody>
-        {categories.map((category) => (
-          <tr key={category._id}>
-            <td>{category.name}</td>
-            <td>
-              <button onClick={() => handleDelete(category._id)}>
-                Удалить
-              </button>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <>
+      <h2 className={styles.title}>Список категорий</h2>
+      <div className={styles["table-container"]}>
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              <th>Название</th>
+              <th>Действия</th>
+            </tr>
+          </thead>
+          <tbody>
+            {categories.map((category) => (
+              <tr key={category._id}>
+                <td>{category.name}</td>
+                <td>
+                  <button
+                    className={styles.deleteButton}
+                    onClick={() => handleDelete(category._id)}
+                  >
+                    Удалить
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
   );
 };
 
