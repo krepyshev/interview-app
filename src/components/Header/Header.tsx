@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../store/auth";
-import ThemeSwitcher from "../ThemeSwitcher";
+import ThemeSwitcher from "../ThemeSwitcher/ThemeSwitcher";
 import Button from "../Button/Button";
 import Logo from "../Logo/Logo";
 import styles from "./Header.module.scss";
