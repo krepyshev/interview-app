@@ -30,6 +30,31 @@ router.post("/", async (req, res) => {
   }
 });
 
+// Обновление вопроса
+router.put("/:id", async (req, res) => {
+  const { category, title, text } = req.body;
+
+  if (!category || !title || !text) {
+    return res.status(400).json({ error: "Все поля обязательны" });
+  }
+
+  try {
+    const updatedQuestion = await Question.findByIdAndUpdate(
+      req.params.id,
+      { category, title, text },
+      { new: true } // Опция `new: true` возвращает обновленный документ
+    );
+
+    if (!updatedQuestion) {
+      return res.status(404).json({ error: "Вопрос не найден" });
+    }
+
+    res.json({ message: "Вопрос успешно обновлён", question: updatedQuestion });
+  } catch (err) {
+    res.status(500).json({ error: "Ошибка при обновлении вопроса" });
+  }
+});
+
 // Удаление вопроса
 router.delete("/:id", async (req, res) => {
   try {
