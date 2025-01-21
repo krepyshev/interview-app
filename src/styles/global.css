@@ -19,6 +19,15 @@ body {
     color 0.3s;
 }
 
+/* Карточки и контейнеры */
+.card {
+  background-color: var(--color-surface);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
 /* Заголовки */
 h1,
 h2,
@@ -48,10 +57,11 @@ button {
   border: none;
   padding: 10px 20px;
   border-radius: var(--border-radius);
-  font-size: 16px;
+  font-size: var(--font-size-default);
   background-color: var(--color-primary);
-  color: #fff;
+  color: var(--color-surface);
   transition: all 0.3s;
+  box-shadow: var(--box-shadow);
 }
 
 button:hover {
@@ -84,7 +94,11 @@ textarea {
   font-family: inherit;
   border: 1px solid var(--color-secondary);
   border-radius: var(--border-radius);
-  transition: border-color 0.3s;
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  transition:
+    border-color 0.3s,
+    box-shadow 0.3s;
 }
 
 input:focus,
@@ -92,43 +106,50 @@ select:focus,
 textarea:focus {
   outline: none;
   border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.3);
 }
 
 /* Таблицы */
 table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0 10px;
   margin: 20px 0;
 }
 
 table th,
 table td {
-  border: 1px solid var(--color-secondary);
-  padding: 10px;
+  border: none;
+  padding: 15px;
+  background-color: var(--color-surface);
+  color: var(--color-text);
   text-align: left;
+  border-radius: var(--border-radius);
 }
 
 table th {
   background-color: var(--color-primary);
-  color: #fff;
+  color: var(--color-surface);
 }
 
-table tr:hover {
+table tr:hover td {
   background-color: var(--color-secondary-hover);
 }
 
 /* Заголовок */
 header {
   background-color: var(--color-primary);
-  color: white;
-  padding: 10px 20px;
+  color: var(--color-surface);
+  padding: 15px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-radius: var(--border-radius);
+  margin-bottom: 20px;
 }
 
 header nav a {
-  color: white;
+  color: var(--color-surface);
   text-decoration: none;
   margin-left: 20px;
 }
