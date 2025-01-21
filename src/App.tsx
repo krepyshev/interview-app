@@ -2,8 +2,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { routes } from "./routes/routes";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { Suspense, useEffect } from "react";
-import Header from "./components/Header";
 import { useAuthStore } from "./store/auth";
+import PageLayout from "./layouts/PageLayout/PageLayout";
 
 function App() {
   const initializeAuth = useAuthStore((state) => state.initializeAuth);
@@ -18,22 +18,23 @@ function App() {
   }
   return (
     <Router>
-      <Header />
       <Suspense fallback={<div>Loading...</div>}>
-        <Routes>
-          {routes.map(
-            ({ path, component: Component, private: isPrivate, role }) => {
-              if (isPrivate) {
-                return (
-                  <Route key={path} element={<ProtectedRoute role={role} />}>
-                    <Route path={path} element={<Component />} />
-                  </Route>
-                );
+        <PageLayout>
+          <Routes>
+            {routes.map(
+              ({ path, component: Component, private: isPrivate, role }) => {
+                if (isPrivate) {
+                  return (
+                    <Route key={path} element={<ProtectedRoute role={role} />}>
+                      <Route path={path} element={<Component />} />
+                    </Route>
+                  );
+                }
+                return <Route key={path} path={path} element={<Component />} />;
               }
-              return <Route key={path} path={path} element={<Component />} />;
-            }
-          )}
-        </Routes>
+            )}
+          </Routes>
+        </PageLayout>
       </Suspense>
     </Router>
   );

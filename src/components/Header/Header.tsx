@@ -1,7 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useAuthStore } from "../store/auth";
-import ThemeSwitcher from "./ThemeSwitcher";
-import Button from "./Button/Button";
+import { useAuthStore } from "../../store/auth";
+import ThemeSwitcher from "../ThemeSwitcher";
+import Button from "../Button/Button";
+import Logo from "../Logo/Logo";
+import styles from "./Header.module.scss";
 
 const Header = () => {
   const user = useAuthStore((state) => state.user);
@@ -13,29 +15,24 @@ const Header = () => {
     navigate("/login");
   };
 
+  const theme = document.documentElement.dataset.theme;
+  const currentTheme = theme === "dark" || theme === "light" ? theme : "light";
+
   return (
-    <header
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        padding: "10px 20px",
-        backgroundColor: "#333",
-        color: "#fff",
-      }}
-    >
-      <div>
-        <Link to="/" style={{ color: "#fff", textDecoration: "none" }}>
-          InterviewApp
+    <header className={styles.header}>
+      <div className={styles.logoContainer}>
+        <Link to="/">
+          <Logo theme={currentTheme} />
         </Link>
       </div>
-      <ThemeSwitcher />
-      <nav style={{ display: "flex", gap: "15px" }}>
+
+      <nav className={styles.nav}>
         {user ? (
           <>
-            <span>Привет, {user.username}!</span>
+            <span className={styles.welcome}>Привет, {user.username}!</span>
             {user.role === "admin" && (
               <Button onClick={() => navigate("/admin")} variant="primary">
-                Админ-панель
+                Админка
               </Button>
             )}
             <Button variant="secondary" onClick={handleLogout}>
@@ -52,6 +49,7 @@ const Header = () => {
             </Button>
           </>
         )}
+        <ThemeSwitcher />
       </nav>
     </header>
   );

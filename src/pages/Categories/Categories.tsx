@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import styles from "./Categories.module.scss";
+import ContentLayout from "../../layouts/ContentLayout/ContentLayout";
 
 interface Category {
   name: string;
@@ -44,30 +46,21 @@ const Categories = () => {
   }
 
   return (
-    <div style={{ maxWidth: "600px", margin: "50px auto" }}>
-      <h1>Категории</h1>
-      <ul style={{ listStyleType: "none", padding: 0 }}>
+    <ContentLayout>
+      <h1 className={styles.heading}>Категории</h1>
+      <ul className={styles.list}>
         {categories.map((category) => (
-          <li key={category.name} style={{ margin: "10px 0" }}>
+          <li key={category.name} className={styles.card}>
             <Link
               to={`/questions/${category.name}`}
-              style={{
-                textDecoration: "none",
-                color: "blue",
-                fontSize: "18px",
-                padding: "10px",
-                display: "block",
-                background: "#f0f0f0",
-                border: "1px solid #ccc",
-                borderRadius: "5px",
-              }}
+              className={styles.cardLink}
             >
               {category.name}
             </Link>
           </li>
         ))}
       </ul>
-    </div>
+    </ContentLayout>
   );
 };
 

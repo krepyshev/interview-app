@@ -24,8 +24,8 @@ const ThemeSwitcher = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        width: "50px",
-        height: "50px",
+        width: "43px",
+        height: "43px",
         background: "var(--color-primary)",
         border: "none",
         borderRadius: "50%",
@@ -35,7 +35,7 @@ const ThemeSwitcher = () => {
         boxShadow: "var(--box-shadow)",
       }}
     >
-      {isDarkTheme ? <FaSun size={24} /> : <FaMoon size={24} />}
+      {isDarkTheme ? <FaSun size={20} /> : <FaMoon size={20} />}
     </button>
   );
 };

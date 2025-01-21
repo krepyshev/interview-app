@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useAuthStore } from "../../store/auth";
 import styles from "./Questions.module.scss";
+import ContentLayout from "../../layouts/ContentLayout/ContentLayout";
 
 interface Question {
   _id: string;
@@ -86,7 +87,7 @@ const Questions = () => {
   }
 
   return (
-    <div className={styles.container}>
+    <ContentLayout>
       <h1 className={styles.heading}>Категория: {category}</h1>
       <input
         type="text"
@@ -115,7 +116,7 @@ const Questions = () => {
           <div>Ничего не найдено.</div>
         )}
       </ul>
-    </div>
+    </ContentLayout>
   );
 };
 

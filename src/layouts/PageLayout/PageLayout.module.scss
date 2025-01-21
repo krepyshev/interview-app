@@ -1,0 +1,15 @@
+.pageLayout {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  min-height: 100vh;
+
+  &__footer {
+    background-color: var(--color-surface);
+    color: var(--color-secondary);
+    text-align: center;
+    padding: 10px 20px;
+    font-size: 14px;
+    border-top: 1px solid var(--color-secondary);
+  }
+}

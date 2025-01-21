@@ -1,0 +1,25 @@
+.logo {
+  display: flex;
+  align-items: center;
+
+  .logoQuick {
+    display: none; // Скрываем короткий логотип на десктопе
+  }
+
+  .logoFull {
+    display: block;
+    width: 150px; // Ширина полного логотипа
+    transition: filter 0.3s;
+  }
+
+  @media (max-width: 768px) {
+    .logoQuick {
+      display: block;
+      width: 50px; // Ширина короткого логотипа
+    }
+
+    .logoFull {
+      display: none; // Скрываем полный логотип на мобильных устройствах
+    }
+  }
+}
