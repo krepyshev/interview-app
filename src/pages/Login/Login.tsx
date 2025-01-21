@@ -5,7 +5,7 @@ const Login = () => {
     <div
       style={{ maxWidth: "400px", margin: "50px auto", textAlign: "center" }}
     >
-      <h1>Login</h1>
+      <h1>Вход</h1>
       <LoginForm />
     </div>
   );

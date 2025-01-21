@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Button from "./Button/Button";
 
 const RegisterForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("user");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ const RegisterForm = () => {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ username, password, role }),
+          body: JSON.stringify({ username, password }),
         }
       );
 
@@ -43,7 +43,7 @@ const RegisterForm = () => {
       {success && <p style={{ color: "green" }}>{success}</p>}
       <div style={{ marginBottom: "15px" }}>
         <label style={{ display: "block", marginBottom: "5px" }}>
-          Username:
+          Имя пользователя:
         </label>
         <input
           type="text"
@@ -60,9 +60,7 @@ const RegisterForm = () => {
         />
       </div>
       <div style={{ marginBottom: "15px" }}>
-        <label style={{ display: "block", marginBottom: "5px" }}>
-          Password:
-        </label>
+        <label style={{ display: "block", marginBottom: "5px" }}>Пароль:</label>
         <input
           type="password"
           value={password}
@@ -77,37 +75,9 @@ const RegisterForm = () => {
           }}
         />
       </div>
-      <div style={{ marginBottom: "15px" }}>
-        <label style={{ display: "block", marginBottom: "5px" }}>Role:</label>
-        <select
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
-          style={{
-            width: "100%",
-            padding: "10px",
-            fontSize: "16px",
-            border: "1px solid #ccc",
-            borderRadius: "4px",
-          }}
-        >
-          <option value="user">User</option>
-          <option value="admin">Admin</option>
-        </select>
-      </div>
-      <button
-        type="submit"
-        style={{
-          backgroundColor: "#4caf50",
-          color: "white",
-          border: "none",
-          padding: "10px 20px",
-          cursor: "pointer",
-          fontSize: "16px",
-          borderRadius: "4px",
-        }}
-      >
-        Register
-      </button>
+      <Button type="submit" variant="primary">
+        Зарегистрироваться
+      </Button>
     </form>
   );
 };

@@ -6,6 +6,7 @@ type ButtonProps = {
   variant?: "primary" | "secondary" | "outlined";
   onClick?: () => void;
   disabled?: boolean;
+  type?: "button" | "reset" | "submit";
 };
 
 const Button: React.FC<ButtonProps> = ({

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/auth";
+import Button from "./Button/Button";
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
@@ -46,7 +47,7 @@ const LoginForm = () => {
       {error && <p style={{ color: "red" }}>{error}</p>}
       <div style={{ marginBottom: "15px" }}>
         <label style={{ display: "block", marginBottom: "5px" }}>
-          Username:
+          Имя пользователя:
         </label>
         <input
           type="text"
@@ -63,9 +64,7 @@ const LoginForm = () => {
         />
       </div>
       <div style={{ marginBottom: "15px" }}>
-        <label style={{ display: "block", marginBottom: "5px" }}>
-          Password:
-        </label>
+        <label style={{ display: "block", marginBottom: "5px" }}>Пароль:</label>
         <input
           type="password"
           value={password}
@@ -80,20 +79,9 @@ const LoginForm = () => {
           }}
         />
       </div>
-      <button
-        type="submit"
-        style={{
-          backgroundColor: "#4caf50",
-          color: "white",
-          border: "none",
-          padding: "10px 20px",
-          cursor: "pointer",
-          fontSize: "16px",
-          borderRadius: "4px",
-        }}
-      >
-        Login
-      </button>
+      <Button type="submit" variant="primary">
+        Войти
+      </Button>
     </form>
   );
 };

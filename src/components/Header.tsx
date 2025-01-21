@@ -34,18 +34,9 @@ const Header = () => {
           <>
             <span>Привет, {user.username}!</span>
             {user.role === "admin" && (
-              <Link
-                to="/admin"
-                style={{
-                  color: "#fff",
-                  textDecoration: "none",
-                  padding: "5px 10px",
-                  backgroundColor: "purple",
-                  borderRadius: "5px",
-                }}
-              >
-                Админка
-              </Link>
+              <Button onClick={() => navigate("/admin")} variant="primary">
+                Админ-панель
+              </Button>
             )}
             <Button variant="secondary" onClick={handleLogout}>
               Выйти
@@ -53,30 +44,12 @@ const Header = () => {
           </>
         ) : (
           <>
-            <Link
-              to="/login"
-              style={{
-                color: "#fff",
-                textDecoration: "none",
-                padding: "5px 10px",
-                backgroundColor: "blue",
-                borderRadius: "5px",
-              }}
-            >
+            <Button onClick={() => navigate("/login")} variant="primary">
               Войти
-            </Link>
-            <Link
-              to="/register"
-              style={{
-                color: "#fff",
-                textDecoration: "none",
-                padding: "5px 10px",
-                backgroundColor: "green",
-                borderRadius: "5px",
-              }}
-            >
+            </Button>
+            <Button onClick={() => navigate("/register")} variant="secondary">
               Регистрация
-            </Link>
+            </Button>
           </>
         )}
       </nav>
