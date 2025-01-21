@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useAuthStore } from "../../store/auth";
+import styles from "./Questions.module.scss";
 
 interface Question {
   _id: string;
@@ -85,49 +86,25 @@ const Questions = () => {
   }
 
   return (
-    <div style={{ maxWidth: "800px", margin: "50px auto" }}>
-      <h1>Категория: {category}</h1>
+    <div className={styles.container}>
+      <h1 className={styles.heading}>Категория: {category}</h1>
       <input
         type="text"
         placeholder="Поиск вопросов..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        style={{
-          width: "100%",
-          padding: "10px",
-          marginBottom: "20px",
-          fontSize: "16px",
-          border: "1px solid #ccc",
-          borderRadius: "5px",
-        }}
+        className={styles.searchInput}
       />
-      <ul>
+      <ul className={styles.list}>
         {filteredQuestions.length > 0 ? (
           filteredQuestions.map((question) => (
-            <li
-              key={question._id}
-              style={{
-                marginBottom: "20px",
-                padding: "15px",
-                border: "1px solid #ccc",
-                borderRadius: "8px",
-                backgroundColor: "#f9f9f9",
-              }}
-            >
-              <h3>{question.title}</h3>
-              <p>{question.text}</p>
+            <li key={question._id} className={styles.card}>
+              <h3 className={styles.cardTitle}>{question.title}</h3>
+              <p className={styles.cardText}>{question.text}</p>
               {user?.role === "admin" && (
                 <button
                   onClick={() => handleDelete(question._id)}
-                  style={{
-                    marginTop: "10px",
-                    padding: "5px 10px",
-                    backgroundColor: "red",
-                    color: "white",
-                    border: "none",
-                    borderRadius: "5px",
-                    cursor: "pointer",
-                  }}
+                  className={styles.deleteButton}
                 >
                   Удалить
                 </button>

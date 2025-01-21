@@ -1,5 +1,4 @@
 :root {
-  /* Светлая тема */
   --font-family: "Circe", sans-serif;
   --font-size-default: 16px;
 
@@ -11,13 +10,13 @@
   --color-surface: #ffffff;
   --color-text: #1c1c1e;
   --color-error: #ff3b30;
+  --color-error-hover: #b32d28; // Добавляем готовый оттенок для hover
 
   --border-radius: 12px;
   --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 [data-theme="dark"] {
-  /* Тёмная тема */
   --color-primary: #5bb9f3;
   --color-primary-hover: #3497d0;
   --color-secondary: #9c9ca3;
@@ -26,6 +25,7 @@
   --color-surface: #2c2c2e;
   --color-text: #f5f5f7;
   --color-error: #ff453a;
+  --color-error-hover: #d93831; // Оттенок для hover
 
   --border-radius: 12px;
   --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);

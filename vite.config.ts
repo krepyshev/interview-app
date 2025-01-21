@@ -6,4 +6,9 @@ export default defineConfig({
   define: {
     "process.env": {},
   },
+  css: {
+    modules: {
+      scopeBehaviour: "local",
+    },
+  },
 });
