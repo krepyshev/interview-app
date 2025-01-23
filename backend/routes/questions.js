@@ -1,7 +1,15 @@
+// backend/routes/questions.js
 const express = require("express");
 const Question = require("../models/Question");
 
 const router = express.Router();
+
+// Функция для расчёта времени на изучение
+const calculateTimeToLearn = (text) => {
+  const wordsPerMinute = 200; // Средняя скорость чтения (слов в минуту)
+  const wordCount = text.trim().split(/\s+/).length; // Подсчёт слов в тексте
+  return Math.ceil(wordCount / wordsPerMinute); // Округляем вверх, чтобы получить минуты
+};
 
 // Получение всех вопросов
 router.get("/", async (req, res) => {
@@ -15,14 +23,22 @@ router.get("/", async (req, res) => {
 
 // Добавление нового вопроса
 router.post("/", async (req, res) => {
-  const { category, title, text } = req.body;
+  const { category, title, text, difficulty } = req.body;
 
-  if (!category || !title || !text) {
+  if (!category || !title || !text || !difficulty) {
     return res.status(400).json({ error: "Все поля обязательны" });
   }
 
+  const timeToLearn = calculateTimeToLearn(text);
+
   try {
-    const newQuestion = new Question({ category, title, text });
+    const newQuestion = new Question({
+      category,
+      title,
+      text,
+      difficulty,
+      timeToLearn,
+    });
     await newQuestion.save();
     res.status(201).json({ message: "Вопрос успешно добавлен" });
   } catch (err) {
@@ -32,24 +48,28 @@ router.post("/", async (req, res) => {
 
 // Обновление вопроса
 router.put("/:id", async (req, res) => {
-  const { category, title, text } = req.body;
+  const { learned } = req.body;
 
-  if (!category || !title || !text) {
-    return res.status(400).json({ error: "Все поля обязательны" });
+  // Проверяем, если нет поля learned
+  if (typeof learned === "undefined") {
+    return res.status(400).json({ error: "Поле 'learned' обязательно" });
   }
 
   try {
     const updatedQuestion = await Question.findByIdAndUpdate(
       req.params.id,
-      { category, title, text },
-      { new: true } // Опция `new: true` возвращает обновленный документ
+      { learned }, // Обновляем только поле 'learned'
+      { new: true } // Возвращает обновленный документ
     );
 
     if (!updatedQuestion) {
       return res.status(404).json({ error: "Вопрос не найден" });
     }
 
-    res.json({ message: "Вопрос успешно обновлён", question: updatedQuestion });
+    res.json({
+      message: "Статус выученного обновлён",
+      question: updatedQuestion,
+    });
   } catch (err) {
     res.status(500).json({ error: "Ошибка при обновлении вопроса" });
   }

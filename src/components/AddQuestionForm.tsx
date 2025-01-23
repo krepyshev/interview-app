@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Button from "./Button/Button";
 
 interface Category {
   _id: string;
@@ -15,6 +16,7 @@ const AddQuestionForm: React.FC<AddQuestionFormProps> = ({
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
   const [category, setCategory] = useState("");
+  const [difficulty, setDifficulty] = useState("");
   const [categories, setCategories] = useState<Category[]>([]);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -58,6 +60,7 @@ const AddQuestionForm: React.FC<AddQuestionFormProps> = ({
             title,
             text,
             category,
+            difficulty,
           }),
         }
       );
@@ -69,6 +72,7 @@ const AddQuestionForm: React.FC<AddQuestionFormProps> = ({
       setTitle("");
       setText("");
       setCategory("");
+      setDifficulty("");
       setSuccessMessage("Вопрос успешно добавлен!");
       setTimeout(() => setSuccessMessage(""), 3000);
 
@@ -113,7 +117,21 @@ const AddQuestionForm: React.FC<AddQuestionFormProps> = ({
             ))}
           </select>
         </div>
-        <button type="submit">Добавить вопрос</button>
+        <div>
+          <label>Сложность:</label>
+          <select
+            value={difficulty}
+            onChange={(e) => setDifficulty(e.target.value)}
+          >
+            <option value="" disabled>
+              Выберите сложность
+            </option>
+            <option value="easy">Простая</option>
+            <option value="medium">Средняя</option>
+            <option value="hard">Сложная</option>
+          </select>
+        </div>
+        <Button type="submit">Добавить вопрос</Button>
       </form>
     </div>
   );

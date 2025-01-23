@@ -10,8 +10,9 @@ interface QuestionsTableProps {
 interface Question {
   _id: string;
   title: string;
-  category: string;
   text: string;
+  category: string;
+  difficulty: string;
 }
 
 const QuestionsTable: React.FC<QuestionsTableProps> = ({ refresh }) => {

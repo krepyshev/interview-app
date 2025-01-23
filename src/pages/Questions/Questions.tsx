@@ -9,6 +9,9 @@ interface Question {
   title: string;
   text: string;
   category: string;
+  difficulty: string;
+  timeToLearn: number;
+  learned: boolean;
 }
 
 const Questions = () => {
@@ -46,20 +49,23 @@ const Questions = () => {
     fetchQuestions();
   }, [category]);
 
-  const handleDelete = async (id: string) => {
+  const toggleLearned = async (id: string, currentLearned: boolean) => {
     try {
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/questions/${id}`,
         {
-          method: "DELETE",
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ learned: !currentLearned }),
         }
       );
+
       if (!response.ok) {
-        throw new Error("Ошибка удаления вопроса");
+        throw new Error("Ошибка обновления статуса выученного");
       }
 
-      setQuestions((prevQuestions) =>
-        prevQuestions.filter((q) => q._id !== id)
+      setQuestions((prev) =>
+        prev.map((q) => (q._id === id ? { ...q, learned: !currentLearned } : q))
       );
     } catch (err) {
       alert((err as Error).message);
@@ -102,14 +108,43 @@ const Questions = () => {
             <li key={question._id} className={styles.card}>
               <h3 className={styles.cardTitle}>{question.title}</h3>
               <p className={styles.cardText}>{question.text}</p>
-              {user?.role === "admin" && (
-                <button
-                  onClick={() => handleDelete(question._id)}
-                  className={styles.deleteButton}
-                >
-                  Удалить
-                </button>
-              )}
+              <p>
+                <strong>Сложность:</strong> {question.difficulty}
+              </p>
+              <p>
+                <strong>Время для изучения:</strong> {question.timeToLearn} мин
+              </p>
+              <div className={styles.actions}>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={question.learned}
+                    onChange={() =>
+                      toggleLearned(question._id, question.learned)
+                    }
+                  />
+                  Выучено
+                </label>
+                {user?.role === "admin" && (
+                  <button
+                    onClick={() =>
+                      fetch(
+                        `${import.meta.env.VITE_API_URL}/questions/${question._id}`,
+                        {
+                          method: "DELETE",
+                        }
+                      ).then(() => {
+                        setQuestions((prev) =>
+                          prev.filter((q) => q._id !== question._id)
+                        );
+                      })
+                    }
+                    className={styles.deleteButton}
+                  >
+                    Удалить
+                  </button>
+                )}
+              </div>
             </li>
           ))
         ) : (

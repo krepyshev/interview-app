@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Button from "./Button/Button";
 
 interface Category {
   _id: string;
@@ -10,6 +11,7 @@ interface Question {
   title: string;
   text: string;
   category: string;
+  difficulty: string;
 }
 
 interface EditQuestionFormProps {
@@ -24,6 +26,7 @@ const EditQuestionForm: React.FC<EditQuestionFormProps> = ({
   const [title, setTitle] = useState(question.title);
   const [text, setText] = useState(question.text);
   const [category, setCategory] = useState(question.category);
+  const [difficulty, setDifficulty] = useState(question.difficulty);
   const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
@@ -47,7 +50,7 @@ const EditQuestionForm: React.FC<EditQuestionFormProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSave({ ...question, title, text, category });
+    onSave({ ...question, title, text, category, difficulty });
   };
 
   return (
@@ -74,7 +77,21 @@ const EditQuestionForm: React.FC<EditQuestionFormProps> = ({
           ))}
         </select>
       </div>
-      <button type="submit">Сохранить</button>
+      <div>
+        <label>Сложность:</label>
+        <select
+          value={difficulty}
+          onChange={(e) => setDifficulty(e.target.value)}
+        >
+          <option value="" disabled>
+            Выберите сложность
+          </option>
+          <option value="easy">Простая</option>
+          <option value="medium">Средняя</option>
+          <option value="hard">Сложная</option>
+        </select>
+      </div>
+      <Button type="submit">Сохранить</Button>
     </form>
   );
 };
