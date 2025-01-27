@@ -4,10 +4,16 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { Suspense, useEffect } from "react";
 import { useAuthStore } from "./store/auth";
 import PageLayout from "./layouts/PageLayout/PageLayout";
+import { useThemeStore } from "./store/theme";
 
 function App() {
   const initializeAuth = useAuthStore((state) => state.initializeAuth);
   const isLoading = useAuthStore((state) => state.isLoading);
+  const setInitialTheme = useThemeStore((state) => state.setInitialTheme);
+
+  useEffect(() => {
+    setInitialTheme();
+  }, [setInitialTheme]);
 
   useEffect(() => {
     initializeAuth();

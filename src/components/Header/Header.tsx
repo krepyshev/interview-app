@@ -14,15 +14,11 @@ const Header = () => {
     logout();
     navigate("/login");
   };
-
-  const theme = document.documentElement.dataset.theme;
-  const currentTheme = theme === "dark" || theme === "light" ? theme : "light";
-
   return (
     <header className={styles.header}>
       <div className={styles.logoContainer}>
         <Link to="/">
-          <Logo theme={currentTheme} />
+          <Logo />
         </Link>
       </div>
 

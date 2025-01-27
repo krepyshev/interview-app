@@ -1,20 +1,9 @@
-import { useEffect, useState } from "react";
+import { useThemeStore } from "../../store/theme";
 import styles from "./ThemeSwitcher.module.scss";
 import { FaSun, FaMoon } from "react-icons/fa";
 
 const ThemeSwitcher = () => {
-  const [theme, setTheme] = useState<"light" | "dark">(
-    (document.documentElement.dataset.theme as "light" | "dark") || "light"
-  );
-
-  useEffect(() => {
-    document.documentElement.dataset.theme = theme;
-    localStorage.setItem("theme", theme);
-  }, [theme]);
-
-  const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
-  };
+  const { theme, toggleTheme } = useThemeStore(); // Используем глобальное состояние темы
 
   return (
     <button
