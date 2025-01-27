@@ -21,6 +21,19 @@ router.get("/", async (req, res) => {
   }
 });
 
+// Получение вопроса по ID
+router.get("/:id", async (req, res) => {
+  try {
+    const question = await Question.findById(req.params.id);
+    if (!question) {
+      return res.status(404).json({ error: "Вопрос не найден" });
+    }
+    res.json(question);
+  } catch (err) {
+    res.status(500).json({ error: "Ошибка при получении вопроса" });
+  }
+});
+
 // Добавление нового вопроса
 router.post("/", async (req, res) => {
   const { category, title, text, difficulty } = req.body;

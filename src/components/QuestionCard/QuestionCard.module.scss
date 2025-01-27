@@ -56,6 +56,12 @@
 }
 
 .icon {
-  color: var(--color-primary); /* Цвет иконки */
+  color: var(--color-primary-dark);
   font-size: 16px;
+  cursor: pointer;
+  transition: color 0.3s;
+
+  &:hover {
+    color: var(--color-primary);
+  }
 }

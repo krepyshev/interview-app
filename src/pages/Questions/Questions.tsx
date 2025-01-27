@@ -78,6 +78,7 @@ const Questions = () => {
       <div className={styles.cards}>
         {questions.map((question, index) => (
           <QuestionCard
+            _id={question._id}
             key={question._id}
             title={question.title}
             timeToLearn={question.timeToLearn}
