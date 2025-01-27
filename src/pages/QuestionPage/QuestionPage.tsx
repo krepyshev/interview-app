@@ -1,5 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import Markdown from "markdown-to-jsx";
+import CodeBlock from "../../components/CodeBlock/CodeBlock"; // Импортируем компонент для подсветки
 import styles from "./QuestionPage.module.scss";
 import ContentLayout from "../../layouts/ContentLayout/ContentLayout";
 
@@ -41,30 +43,6 @@ const QuestionPage = () => {
     fetchQuestion();
   }, [id]);
 
-  const handleLearnedToggle = async () => {
-    if (!question) return;
-
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/questions/${id}`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ learned: !question.learned }),
-        }
-      );
-      if (!response.ok) {
-        throw new Error("Ошибка обновления статуса выученного");
-      }
-      setQuestion((prev) =>
-        prev ? { ...prev, learned: !prev.learned } : prev
-      );
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (err) {
-      alert("Ошибка обновления статуса");
-    }
-  };
-
   if (loading) return <div>Загрузка...</div>;
   if (error) return <div>Ошибка: {error}</div>;
   if (!question) return <div>Вопрос не найден</div>;
@@ -75,7 +53,18 @@ const QuestionPage = () => {
         Назад
       </button>
       <h1 className={styles.title}>{question.title}</h1>
-      <p className={styles.text}>{question.text}</p>
+      <Markdown
+        options={{
+          overrides: {
+            code: {
+              component: CodeBlock, // Подключаем подсветку для кода
+            },
+          },
+        }}
+        className={styles.text}
+      >
+        {question.text}
+      </Markdown>
       <div className={styles.details}>
         <p>
           <strong>Сложность:</strong> {question.difficulty}
@@ -84,11 +73,6 @@ const QuestionPage = () => {
           <strong>Время для изучения:</strong> {question.timeToLearn} мин
         </p>
       </div>
-      <button onClick={handleLearnedToggle} className={styles.learnedButton}>
-        {question.learned
-          ? "Пометить как невыученный"
-          : "Пометить как выученный"}
-      </button>
     </ContentLayout>
   );
 };

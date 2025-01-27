@@ -1,4 +1,6 @@
 import { FC } from "react";
+import Markdown from "markdown-to-jsx";
+import CodeBlock from "../../components/CodeBlock/CodeBlock"; // Подключаем наш компонент подсветки кода
 import Modal from "./Modal";
 import styles from "./QuestionModal.module.scss";
 
@@ -21,7 +23,18 @@ const QuestionModal: FC<QuestionModalProps> = ({
     <Modal isOpen={true} onClose={onClose}>
       <div className={styles.modal}>
         <h2 className={styles.title}>{title}</h2>
-        <p className={styles.text}>{text}</p>
+        <Markdown
+          options={{
+            overrides: {
+              code: {
+                component: CodeBlock, // Передаём компонент для подсветки
+              },
+            },
+          }}
+          className={styles.text}
+        >
+          {text}
+        </Markdown>
         <div className={styles.actions}>
           <button onClick={onPrevious}>Предыдущий</button>
           <button onClick={onNext}>Следующий</button>
