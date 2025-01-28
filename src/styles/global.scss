@@ -1,14 +1,12 @@
 @use "./variables" as *;
 @use "./fonts" as *;
 
-/* Сброс стилей */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Основные стили */
 body {
   display: flex;
   flex-direction: column;
@@ -24,10 +22,9 @@ body {
 }
 
 .layout__content {
-  flex-grow: 1; /* Контент занимает оставшееся пространство */
+  flex-grow: 1;
 }
 
-/* Карточки и контейнеры */
 .card {
   background-color: var(--color-surface);
   border-radius: var(--border-radius);
@@ -36,7 +33,6 @@ body {
   margin-bottom: 20px;
 }
 
-/* Заголовки */
 h1,
 h2,
 h3,
@@ -47,7 +43,6 @@ h6 {
   font-weight: 700;
 }
 
-/* Ссылки */
 a {
   text-decoration: none;
   color: var(--color-primary);
@@ -58,7 +53,6 @@ a:hover {
   color: var(--color-primary-hover);
 }
 
-/* Кнопки */
 button {
   font-family: inherit;
   cursor: pointer;
@@ -87,7 +81,6 @@ button.outline:hover {
   color: var(--color-primary-hover);
 }
 
-/* Формы */
 form {
   display: flex;
   flex-direction: column;

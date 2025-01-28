@@ -3,8 +3,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: var(--color-surface); // Меняется в зависимости от темы
-  color: var(--color-text); // Меняется в зависимости от темы
+  background-color: var(--color-surface);
+  color: var(--color-text);
   box-shadow: var(--box-shadow);
   border-radius: var(--border-radius);
   transition:
@@ -25,5 +25,5 @@
 
 .welcome {
   font-size: 14px;
-  color: var(--color-secondary); // Цвет текста для приветствия
+  color: var(--color-secondary);
 }

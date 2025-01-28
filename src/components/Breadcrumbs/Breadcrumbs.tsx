@@ -6,10 +6,10 @@ const Breadcrumbs = () => {
 
   const paths = location.pathname
     .split("/")
-    .filter((path) => path) // Убираем пустые части
+    .filter((path) => path)
     .map((path, index, arr) => ({
-      name: path.charAt(0).toUpperCase() + path.slice(1), // Делаем первую букву заглавной
-      path: "/" + arr.slice(0, index + 1).join("/"), // Генерируем путь для ссылки
+      name: path.charAt(0).toUpperCase() + path.slice(1),
+      path: "/" + arr.slice(0, index + 1).join("/"),
     }));
 
   return (
@@ -21,7 +21,7 @@ const Breadcrumbs = () => {
         {paths.map((crumb, index) => (
           <li key={index}>
             {index === paths.length - 1 ? (
-              <span>{crumb.name}</span> // Последняя крошка — просто текст
+              <span>{crumb.name}</span>
             ) : (
               <Link to={crumb.path}>{crumb.name}</Link>
             )}

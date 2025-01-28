@@ -12,7 +12,6 @@
   box-sizing: border-box;
 }
 
-/* Primary Button */
 .button--primary {
   background-color: var(--color-primary);
   color: white;
@@ -27,7 +26,6 @@
   box-shadow: none;
 }
 
-/* Secondary Button */
 .button--secondary {
   background-color: var(--color-secondary);
   color: white;
@@ -42,7 +40,6 @@
   box-shadow: none;
 }
 
-/* Outlined Button */
 .button--outlined {
   background-color: transparent;
   color: var(--color-primary);
@@ -58,7 +55,6 @@
   box-shadow: none;
 }
 
-/* Disabled Button */
 .button--disabled {
   background-color: var(--color-secondary);
   color: white;

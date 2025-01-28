@@ -30,7 +30,7 @@ const RegisterForm = () => {
 
       setSuccess(data.message);
       setError("");
-      setTimeout(() => navigate("/login"), 2000); // Перенаправление на страницу логина
+      setTimeout(() => navigate("/login"), 2000);
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       setError("Ошибка сервера");

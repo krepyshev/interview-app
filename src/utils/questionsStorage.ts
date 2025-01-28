@@ -1,5 +1,5 @@
 type Question = {
-  id: string; // Уникальный идентификатор вопроса
+  id: string;
   title: string;
   text: string;
   category: string;
@@ -24,5 +24,5 @@ export const getQuestionsByCategory = (category: string): Question[] => {
 export const getCategories = (): string[] => {
   const questions = getQuestions();
   const categories = questions.map((q) => q.category);
-  return Array.from(new Set(categories)); // Убираем дубликаты
+  return Array.from(new Set(categories));
 };

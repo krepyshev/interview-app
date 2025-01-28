@@ -1,14 +1,14 @@
 import hljs from "highlight.js";
-import "highlight.js/styles/github-dark.css"; // Тема подсветки
+import "highlight.js/styles/github-dark.css";
 
 interface CodeBlockProps {
-  className?: string; // Для указания языка (например, lang-js)
-  children: string; // Код внутри блока
+  className?: string;
+  children: string;
 }
 
 const CodeBlock = ({ className, children }: CodeBlockProps) => {
-  const language = className?.replace("lang-", "") || "plaintext"; // Определяем язык из класса
-  const highlightedCode = hljs.highlight(language, children).value; // Подсвечиваем код
+  const language = className?.replace("lang-", "") || "plaintext";
+  const highlightedCode = hljs.highlight(language, children).value;
 
   return (
     <pre>

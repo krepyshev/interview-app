@@ -32,6 +32,6 @@ export const routes: Route[] = [
     path: "/admin",
     component: Admin,
     private: true,
-    role: "admin", // Только для администраторов
+    role: "admin",
   },
 ];
