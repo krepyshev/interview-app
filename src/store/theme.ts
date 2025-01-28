@@ -7,12 +7,12 @@ type ThemeState = {
 };
 
 export const useThemeStore = create<ThemeState>((set) => ({
-  theme: (localStorage.getItem("theme") as "light" | "dark") || "light", // Берём тему из localStorage
+  theme: (localStorage.getItem("theme") as "light" | "dark") || "light",
   toggleTheme: () =>
     set((state) => {
       const newTheme = state.theme === "light" ? "dark" : "light";
-      document.documentElement.dataset.theme = newTheme; // Обновляем атрибут
-      localStorage.setItem("theme", newTheme); // Сохраняем в localStorage
+      document.documentElement.dataset.theme = newTheme;
+      localStorage.setItem("theme", newTheme);
       return { theme: newTheme };
     }),
   setInitialTheme: () => {

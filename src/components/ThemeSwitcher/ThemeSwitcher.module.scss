@@ -19,7 +19,6 @@
   color: var(--color-text);
   transition: color 0.3s;
 
-  // Меняем цвет иконки при смене темы
   [data-theme="light"] & {
     color: var(--color-primary);
   }

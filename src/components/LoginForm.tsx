@@ -28,13 +28,10 @@ const LoginForm = () => {
         return;
       }
 
-      // Сохраняем данные в глобальном состоянии через Zustand
       useAuthStore.getState().setUser(data);
 
-      // Сохраняем данные в localStorage
       localStorage.setItem("user", JSON.stringify(data));
 
-      // Перенаправляем пользователя на главную страницу
       navigate("/");
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {

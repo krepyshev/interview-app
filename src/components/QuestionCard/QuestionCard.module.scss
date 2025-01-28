@@ -2,16 +2,16 @@
   cursor: pointer;
   padding: 15px;
   border-radius: var(--border-radius);
-  background-color: var(--color-surface); /* Задаём фон карточке */
-  color: var(--color-text); /* Тексту тёмный оттенок для читаемости */
-  box-shadow: var(--box-shadow); /* Тень для визуального отделения */
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: var(--box-shadow);
   transition:
     transform 0.3s,
     box-shadow 0.3s;
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Больше тень при наведении */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
   }
 }
 
@@ -40,17 +40,17 @@
   text-transform: capitalize;
 
   &.easy {
-    background-color: #d4edda; /* Светло-зелёный */
+    background-color: #d4edda;
     color: #155724;
   }
 
   &.medium {
-    background-color: #fff3cd; /* Светло-жёлтый */
+    background-color: #fff3cd;
     color: #856404;
   }
 
   &.hard {
-    background-color: #f8d7da; /* Светло-красный */
+    background-color: #f8d7da;
     color: #721c24;
   }
 }

@@ -3,7 +3,7 @@ import styles from "./ThemeSwitcher.module.scss";
 import { FaSun, FaMoon } from "react-icons/fa";
 
 const ThemeSwitcher = () => {
-  const { theme, toggleTheme } = useThemeStore(); // Используем глобальное состояние темы
+  const { theme, toggleTheme } = useThemeStore();
 
   return (
     <button

@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const Category = require("../models/Category");
 
-// Получить список всех категорий
 router.get("/", async (req, res) => {
   try {
     const categories = await Category.find();
@@ -12,7 +11,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Добавить новую категорию
 router.post("/", async (req, res) => {
   const { name } = req.body;
   if (!name) {
@@ -28,7 +26,6 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Удалить категорию по ID
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
 

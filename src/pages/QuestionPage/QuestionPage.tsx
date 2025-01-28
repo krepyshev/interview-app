@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Markdown from "markdown-to-jsx";
-import CodeBlock from "../../components/CodeBlock/CodeBlock"; // Импортируем компонент для подсветки
+import CodeBlock from "../../components/CodeBlock/CodeBlock";
 import styles from "./QuestionPage.module.scss";
 import ContentLayout from "../../layouts/ContentLayout/ContentLayout";
 
@@ -57,7 +57,7 @@ const QuestionPage = () => {
         options={{
           overrides: {
             code: {
-              component: CodeBlock, // Подключаем подсветку для кода
+              component: CodeBlock,
             },
           },
         }}

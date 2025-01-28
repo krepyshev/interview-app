@@ -7,7 +7,6 @@ const Category = require("../models/Category");
 
 const router = express.Router();
 
-// Настраиваем multer для загрузки файлов
 const upload = multer({
   dest: "uploads/",
   fileFilter: (req, file, cb) => {
@@ -18,7 +17,6 @@ const upload = multer({
   },
 });
 
-// Обработчик загрузки JSON-файла
 router.post("/", upload.single("file"), async (req, res) => {
   try {
     if (!req.file) {
@@ -28,7 +26,6 @@ router.post("/", upload.single("file"), async (req, res) => {
     const filePath = path.join(__dirname, "../", req.file.path);
     const fileContent = JSON.parse(fs.readFileSync(filePath, "utf-8"));
 
-    // Удаляем файл после чтения
     fs.unlinkSync(filePath);
 
     if (!Array.isArray(fileContent)) {
@@ -39,7 +36,6 @@ router.post("/", upload.single("file"), async (req, res) => {
 
     for (const item of fileContent) {
       if (item.title && item.text && item.category) {
-        // Проверяем или создаем категорию
         let category = await Category.findOne({ name: item.category });
         if (!category) {
           category = await Category.create({ name: item.category });
@@ -53,7 +49,6 @@ router.post("/", upload.single("file"), async (req, res) => {
       }
     }
 
-    // Сохраняем вопросы в базе данных
     const inserted = await Question.insertMany(validQuestions);
 
     res.status(200).json({

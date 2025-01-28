@@ -3,7 +3,6 @@ const User = require("../models/User");
 
 const router = express.Router();
 
-// Регистрация пользователя
 router.post("/register", async (req, res) => {
   const { username, password, role } = req.body;
 
@@ -25,7 +24,6 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// Авторизация пользователя
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
 

@@ -3,23 +3,23 @@
   align-items: center;
 
   .logoQuick {
-    display: none; // Скрываем короткий логотип на десктопе
+    display: none;
   }
 
   .logoFull {
     display: block;
-    width: 175px; // Ширина полного логотипа
+    width: 175px;
     transition: filter 0.3s;
   }
 
   @media (max-width: 768px) {
     .logoQuick {
       display: block;
-      width: 50px; // Ширина короткого логотипа
+      width: 50px;
     }
 
     .logoFull {
-      display: none; // Скрываем полный логотип на мобильных устройствах
+      display: none;
     }
   }
 }

@@ -1,17 +1,14 @@
-// backend/routes/questions.js
 const express = require("express");
 const Question = require("../models/Question");
 
 const router = express.Router();
 
-// Функция для расчёта времени на изучение
 const calculateTimeToLearn = (text) => {
-  const wordsPerMinute = 200; // Средняя скорость чтения (слов в минуту)
-  const wordCount = text.trim().split(/\s+/).length; // Подсчёт слов в тексте
-  return Math.ceil(wordCount / wordsPerMinute); // Округляем вверх, чтобы получить минуты
+  const wordsPerMinute = 200;
+  const wordCount = text.trim().split(/\s+/).length;
+  return Math.ceil(wordCount / wordsPerMinute);
 };
 
-// Получение всех вопросов
 router.get("/", async (req, res) => {
   try {
     const questions = await Question.find();
@@ -21,7 +18,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Получение вопроса по ID
 router.get("/:id", async (req, res) => {
   try {
     const question = await Question.findById(req.params.id);
@@ -34,7 +30,6 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// Добавление нового вопроса
 router.post("/", async (req, res) => {
   const { category, title, text, difficulty } = req.body;
 
@@ -59,11 +54,9 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Обновление вопроса
 router.put("/:id", async (req, res) => {
   const { learned } = req.body;
 
-  // Проверяем, если нет поля learned
   if (typeof learned === "undefined") {
     return res.status(400).json({ error: "Поле 'learned' обязательно" });
   }
@@ -71,8 +64,8 @@ router.put("/:id", async (req, res) => {
   try {
     const updatedQuestion = await Question.findByIdAndUpdate(
       req.params.id,
-      { learned }, // Обновляем только поле 'learned'
-      { new: true } // Возвращает обновленный документ
+      { learned },
+      { new: true }
     );
 
     if (!updatedQuestion) {
@@ -88,7 +81,6 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// Удаление вопроса
 router.delete("/:id", async (req, res) => {
   try {
     await Question.findByIdAndDelete(req.params.id);
