@@ -1,0 +1,25 @@
+.logo {
+  display: flex;
+  align-items: center;
+
+  .logoQuick {
+    display: none;
+  }
+
+  .logoFull {
+    display: block;
+    width: 175px;
+    transition: filter 0.3s;
+  }
+
+  @media (max-width: 768px) {
+    .logoQuick {
+      display: block;
+      width: 50px;
+    }
+
+    .logoFull {
+      display: none;
+    }
+  }
+}

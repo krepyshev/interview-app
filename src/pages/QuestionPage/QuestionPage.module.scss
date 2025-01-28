@@ -1,0 +1,45 @@
+.backButton {
+  background-color: var(--color-secondary-light);
+  color: var(--color-secondary-dark);
+  border: none;
+  padding: 10px 15px;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  margin-bottom: 20px;
+
+  &:hover {
+    background-color: var(--color-secondary);
+    color: white;
+  }
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.text {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.details {
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: var(--color-secondary-dark);
+}
+
+.learnedButton {
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: 14px;
+
+  &:hover {
+    background-color: var(--color-primary-hover);
+  }
+}

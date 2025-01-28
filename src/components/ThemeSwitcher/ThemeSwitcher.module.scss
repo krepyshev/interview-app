@@ -1,0 +1,29 @@
+.switcher {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: var(--color-secondary-hover);
+  }
+}
+
+.icon {
+  font-size: 1.5rem;
+  color: var(--color-text);
+  transition: color 0.3s;
+
+  [data-theme="light"] & {
+    color: var(--color-primary);
+  }
+
+  [data-theme="dark"] & {
+    color: var(--color-secondary);
+  }
+}

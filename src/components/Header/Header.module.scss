@@ -1,0 +1,29 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: var(--box-shadow);
+  border-radius: var(--border-radius);
+  transition:
+    background-color 0.3s,
+    color 0.3s;
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.welcome {
+  font-size: 14px;
+  color: var(--color-secondary);
+}

@@ -1,0 +1,67 @@
+.card {
+  cursor: pointer;
+  padding: 15px;
+  border-radius: var(--border-radius);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: var(--box-shadow);
+  transition:
+    transform 0.3s,
+    box-shadow 0.3s;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.time {
+  font-size: 14px;
+  color: var(--color-secondary);
+  margin-bottom: 5px;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.difficulty {
+  padding: 5px 10px;
+  border-radius: var(--border-radius);
+  font-size: 12px;
+  text-transform: capitalize;
+
+  &.easy {
+    background-color: #d4edda;
+    color: #155724;
+  }
+
+  &.medium {
+    background-color: #fff3cd;
+    color: #856404;
+  }
+
+  &.hard {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+}
+
+.icon {
+  color: var(--color-primary-dark);
+  font-size: 16px;
+  cursor: pointer;
+  transition: color 0.3s;
+
+  &:hover {
+    color: var(--color-primary);
+  }
+}
