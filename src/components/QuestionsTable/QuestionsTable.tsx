@@ -70,20 +70,25 @@ const QuestionsTable: React.FC<QuestionsTableProps> = ({ refresh }) => {
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/questions/${updatedQuestion._id}`,
         {
-          method: "PUT",
+          method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(updatedQuestion),
         }
       );
 
-      if (!response.ok) throw new Error("Ошибка сохранения вопроса");
+      if (!response.ok) {
+        throw new Error("Ошибка сохранения вопроса");
+      }
+
+      const data = await response.json();
 
       setQuestions((prev) =>
-        prev.map((q) => (q._id === updatedQuestion._id ? updatedQuestion : q))
+        prev.map((q) => (q._id === updatedQuestion._id ? data.question : q))
       );
+
       setIsModalOpen(false);
     } catch (err) {
-      console.error(err);
+      console.error("Ошибка при сохранении вопроса", err);
     }
   };
 

@@ -54,17 +54,26 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.put("/:id", async (req, res) => {
-  const { learned } = req.body;
+router.patch("/:id", async (req, res) => {
+  const { category, title, text, difficulty, learned } = req.body;
 
-  if (typeof learned === "undefined") {
-    return res.status(400).json({ error: "Поле 'learned' обязательно" });
+  if (!category || !title || !text || !difficulty) {
+    return res.status(400).json({ error: "Все поля обязательны" });
   }
+
+  const timeToLearn = calculateTimeToLearn(text);
 
   try {
     const updatedQuestion = await Question.findByIdAndUpdate(
       req.params.id,
-      { learned },
+      {
+        category,
+        title,
+        text,
+        difficulty,
+        timeToLearn,
+        learned: learned !== undefined ? learned : false,
+      },
       { new: true }
     );
 
@@ -72,10 +81,7 @@ router.put("/:id", async (req, res) => {
       return res.status(404).json({ error: "Вопрос не найден" });
     }
 
-    res.json({
-      message: "Статус выученного обновлён",
-      question: updatedQuestion,
-    });
+    res.json({ message: "Вопрос успешно обновлён", question: updatedQuestion });
   } catch (err) {
     res.status(500).json({ error: "Ошибка при обновлении вопроса" });
   }
