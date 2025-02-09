@@ -1,3 +1,4 @@
+const bcrypt = require("bcrypt");
 const express = require("express");
 const User = require("../models/User");
 
@@ -11,7 +12,12 @@ router.post("/register", async (req, res) => {
   }
 
   try {
-    const newUser = new User({ username, password, role });
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({
+      username,
+      password: hashedPassword,
+      role: "user",
+    });
     await newUser.save();
     res.status(201).json({ message: "Пользователь успешно зарегистрирован" });
   } catch (err) {
@@ -27,20 +33,20 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
-  if (!username || !password) {
-    return res.status(400).json({ error: "Все поля обязательны" });
-  }
-
   try {
-    const user = await User.findOne({ username, password });
-
+    const user = await User.findOne({ username });
     if (!user) {
-      return res.status(401).json({ error: "Неверные учетные данные" });
+      return res.status(404).json({ error: "Пользователь не найден" });
     }
 
-    res.status(200).json({ username: user.username, role: user.role });
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ error: "Неверный пароль" });
+    }
+
+    res.status(200).json({ message: "Авторизация успешна", user });
   } catch (err) {
-    res.status(500).json({ error: "Ошибка базы данных" });
+    res.status(500).json({ error: "Ошибка сервера" });
   }
 });
 
