@@ -28,6 +28,7 @@ const EditQuestionForm: React.FC<EditQuestionFormProps> = ({
   const [category, setCategory] = useState(question.category);
   const [difficulty, setDifficulty] = useState(question.difficulty);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
     setTitle(question.title);
@@ -57,13 +58,9 @@ const EditQuestionForm: React.FC<EditQuestionFormProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSaving(true);
 
-    const updatedQuestion = {
-      title,
-      text,
-      category,
-      difficulty,
-    };
+    const updatedQuestion = { title, text, category, difficulty };
 
     try {
       const response = await fetch(
@@ -83,6 +80,8 @@ const EditQuestionForm: React.FC<EditQuestionFormProps> = ({
       onSave(data.question);
     } catch (err) {
       console.error("Ошибка при сохранении вопроса", err);
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -124,7 +123,9 @@ const EditQuestionForm: React.FC<EditQuestionFormProps> = ({
           <option value="hard">Сложная</option>
         </select>
       </div>
-      <Button type="submit">Сохранить</Button>
+      <Button type="submit" disabled={isSaving}>
+        {isSaving ? "Сохранение..." : "Сохранить"}
+      </Button>
     </form>
   );
 };
