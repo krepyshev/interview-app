@@ -23,6 +23,7 @@ const Questions = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<
     number | null
   >(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     if (!category) return;
@@ -43,6 +44,9 @@ const Questions = () => {
     };
 
     fetchQuestions();
+
+    const user = JSON.parse(localStorage.getItem("user") || "null");
+    setIsAdmin(user?.role === "admin");
   }, [category]);
 
   const openModal = (index: number) => {
@@ -68,6 +72,39 @@ const Questions = () => {
     }
   };
 
+  const handleSave = async (updatedQuestion: Question) => {
+    try {
+      const updatedData = {
+        ...updatedQuestion,
+        timeToLearn: Math.ceil(
+          updatedQuestion.text.trim().split(/\s+/).length / 200
+        ),
+      };
+
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/questions/${updatedQuestion._id}`,
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(updatedData),
+        }
+      );
+
+      if (!response.ok) throw new Error("Ошибка сохранения вопроса");
+
+      const updatedResponse = await response.json();
+
+      setQuestions((prev) =>
+        prev.map((q) =>
+          q._id === updatedResponse.question._id ? updatedResponse.question : q
+        )
+      );
+      closeModal();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   if (loading) return <div>Загрузка...</div>;
   if (error) return <div>Ошибка: {error}</div>;
   if (!questions.length) return <div>Вопросов в категории нет.</div>;
@@ -89,11 +126,12 @@ const Questions = () => {
       </div>
       {currentQuestionIndex !== null && (
         <QuestionModal
-          title={questions[currentQuestionIndex].title}
-          text={questions[currentQuestionIndex].text}
+          question={questions[currentQuestionIndex]}
+          isAdmin={isAdmin}
           onClose={closeModal}
           onNext={goToNextQuestion}
           onPrevious={goToPreviousQuestion}
+          onSave={handleSave}
         />
       )}
     </ContentLayout>
