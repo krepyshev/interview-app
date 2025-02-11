@@ -33,19 +33,20 @@ const MassUploadForm = () => {
       }
 
       const result = await response.json();
-      setSuccessMessage(`Успешно добавлено ${result.successCount} записей`);
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (err: unknown) {
-      setError("Ошибка при загрузке файла");
+      setSuccessMessage(
+        `✅ Успешно добавлено ${result.addedQuestions} вопросов`
+      );
+    } catch (err) {
+      setError(`❌ Ошибка при загрузке файла: ${err}`);
     }
   };
 
   return (
     <div>
-      <h2>Массовая загрузка данных</h2>
+      <h2>Массовая загрузка Markdown</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
       {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
-      <input type="file" accept=".json" onChange={handleFileChange} />
+      <input type="file" accept=".md" onChange={handleFileChange} />
       <button onClick={handleUpload}>Загрузить</button>
     </div>
   );
