@@ -11,18 +11,24 @@ export default function RiskManager() {
   const [lev, setLev] = useState(20);
 
   /* -------- calculations -------- */
-  const delta = Math.abs(entry - stop);
 
   const rows = useMemo(() => {
-    if (!equity || !delta) return [];
     return percentSteps.map((pct) => {
       const riskUSDT = +((equity * pct) / 100).toFixed(2);
+
+      if (!entry || !stop || entry === stop) {
+        // показываем только USD-риск
+        return { pct, riskUSDT, qty: "—", notional: "—", marginReq: "—" };
+      }
+
+      const delta = Math.abs(entry - stop);
       const qty = +(riskUSDT / delta).toFixed(2);
       const notional = +(qty * entry).toFixed(2);
       const marginReq = +(notional / lev).toFixed(2);
+
       return { pct, riskUSDT, qty, notional, marginReq };
     });
-  }, [equity, entry, lev, delta]);
+  }, [equity, entry, stop, lev]);
 
   /* -------- UI -------- */
   return (
