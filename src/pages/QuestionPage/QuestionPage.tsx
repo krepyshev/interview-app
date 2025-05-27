@@ -53,6 +53,14 @@ const QuestionPage = () => {
         Назад
       </button>
       <h1 className={styles.title}>{question.title}</h1>
+      <div className={styles.details}>
+        <p>
+          <strong>Сложность:</strong> {question.difficulty}
+        </p>
+        <p>
+          <strong>Время для изучения:</strong> {question.timeToLearn} мин
+        </p>
+      </div>
       <Markdown
         options={{
           overrides: {
@@ -65,14 +73,6 @@ const QuestionPage = () => {
       >
         {question.text}
       </Markdown>
-      <div className={styles.details}>
-        <p>
-          <strong>Сложность:</strong> {question.difficulty}
-        </p>
-        <p>
-          <strong>Время для изучения:</strong> {question.timeToLearn} мин
-        </p>
-      </div>
     </ContentLayout>
   );
 };

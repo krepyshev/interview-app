@@ -28,6 +28,14 @@ const EditQuestionForm: React.FC<EditQuestionFormProps> = ({
   const [category, setCategory] = useState(question.category);
   const [difficulty, setDifficulty] = useState(question.difficulty);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [isSaving, setIsSaving] = useState(false);
+
+  useEffect(() => {
+    setTitle(question.title);
+    setText(question.text);
+    setCategory(question.category);
+    setDifficulty(question.difficulty);
+  }, [question]);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -48,9 +56,33 @@ const EditQuestionForm: React.FC<EditQuestionFormProps> = ({
     fetchCategories();
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSave({ ...question, title, text, category, difficulty });
+    setIsSaving(true);
+
+    const updatedQuestion = { title, text, category, difficulty };
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/questions/${question._id}`,
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(updatedQuestion),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Ошибка при сохранении вопроса");
+      }
+
+      const data = await response.json();
+      onSave(data.question);
+    } catch (err) {
+      console.error("Ошибка при сохранении вопроса", err);
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -91,7 +123,9 @@ const EditQuestionForm: React.FC<EditQuestionFormProps> = ({
           <option value="hard">Сложная</option>
         </select>
       </div>
-      <Button type="submit">Сохранить</Button>
+      <Button type="submit" disabled={isSaving}>
+        {isSaving ? "Сохранение..." : "Сохранить"}
+      </Button>
     </form>
   );
 };

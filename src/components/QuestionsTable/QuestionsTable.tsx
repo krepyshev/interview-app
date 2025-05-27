@@ -1,11 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./QuestionsTable.module.scss";
-import Modal from "../Modal/Modal";
-import EditQuestionForm from "../EditQuestionForm";
-
-interface QuestionsTableProps {
-  refresh?: boolean;
-}
+import QuestionModal from "../Modal/QuestionModal";
 
 interface Question {
   _id: string;
@@ -13,6 +8,11 @@ interface Question {
   text: string;
   category: string;
   difficulty: string;
+  timeToLearn: number;
+}
+
+interface QuestionsTableProps {
+  refresh?: boolean;
 }
 
 const QuestionsTable: React.FC<QuestionsTableProps> = ({ refresh }) => {
@@ -20,7 +20,8 @@ const QuestionsTable: React.FC<QuestionsTableProps> = ({ refresh }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -30,10 +31,8 @@ const QuestionsTable: React.FC<QuestionsTableProps> = ({ refresh }) => {
         const response = await fetch(
           `${import.meta.env.VITE_API_URL}/questions`
         );
-        if (!response.ok) {
-          throw new Error("Ошибка загрузки вопросов");
-        }
-        const data = await response.json();
+        if (!response.ok) throw new Error("Ошибка загрузки вопросов");
+        const data: Question[] = await response.json();
         setQuestions(data);
       } catch (err) {
         setError((err as Error).message);
@@ -43,43 +42,47 @@ const QuestionsTable: React.FC<QuestionsTableProps> = ({ refresh }) => {
     };
 
     fetchQuestions();
+
+    const user = JSON.parse(localStorage.getItem("user") || "null");
+    setIsAdmin(user?.role === "admin");
   }, [refresh]);
 
-  const handleDelete = async (id: string) => {
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/questions/${id}`,
-        { method: "DELETE" }
-      );
-      if (!response.ok) {
-        throw new Error("Не удалось удалить вопрос");
-      }
-      setQuestions((prev) => prev.filter((question) => question._id !== id));
-    } catch (err) {
-      alert((err as Error).message);
-    }
+  const handleNext = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % questions.length);
   };
 
-  const handleEdit = (question: Question) => {
-    setCurrentQuestion(question);
-    setIsModalOpen(true);
+  const handlePrevious = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? questions.length - 1 : prevIndex - 1
+    );
   };
 
   const handleSave = async (updatedQuestion: Question) => {
     try {
+      const updatedData = {
+        ...updatedQuestion,
+        timeToLearn: Math.ceil(
+          updatedQuestion.text.trim().split(/\s+/).length / 200
+        ),
+      };
+
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/questions/${updatedQuestion._id}`,
         {
-          method: "PUT",
+          method: "PATCH",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(updatedQuestion),
+          body: JSON.stringify(updatedData),
         }
       );
 
       if (!response.ok) throw new Error("Ошибка сохранения вопроса");
 
+      const updatedResponse = await response.json();
+
       setQuestions((prev) =>
-        prev.map((q) => (q._id === updatedQuestion._id ? updatedQuestion : q))
+        prev.map((q) =>
+          q._id === updatedResponse.question._id ? updatedResponse.question : q
+        )
       );
       setIsModalOpen(false);
     } catch (err) {
@@ -109,31 +112,35 @@ const QuestionsTable: React.FC<QuestionsTableProps> = ({ refresh }) => {
             </tr>
           </thead>
           <tbody>
-            {questions.map((question) => (
+            {questions.map((question, index) => (
               <tr key={question._id}>
                 <td>{question._id}</td>
                 <td>{question.title}</td>
                 <td>{question.category}</td>
                 <td>
-                  <button onClick={() => handleEdit(question)}>
-                    Редактировать
-                  </button>
                   <button
-                    className={styles.deleteButton}
-                    onClick={() => handleDelete(question._id)}
+                    onClick={() => {
+                      setCurrentIndex(index);
+                      setIsModalOpen(true);
+                    }}
                   >
-                    Удалить
+                    Открыть
                   </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
-        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-          {currentQuestion && (
-            <EditQuestionForm question={currentQuestion} onSave={handleSave} />
-          )}
-        </Modal>
+        {isModalOpen && (
+          <QuestionModal
+            question={questions[currentIndex]}
+            isAdmin={isAdmin}
+            onClose={() => setIsModalOpen(false)}
+            onNext={handleNext}
+            onPrevious={handlePrevious}
+            onSave={handleSave}
+          />
+        )}
       </div>
     </>
   );

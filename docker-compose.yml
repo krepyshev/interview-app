@@ -16,15 +16,12 @@ services:
       dockerfile: Dockerfile
     ports:
       - "4000:4000"
-    environment:
-      - MONGO_URI=mongodb://mongo:27017/interviewApp
+    env_file:
+      - .env
 
   mongo:
     image: mongo:5.0
-    ports:
-      - "27017:27017"
     volumes:
       - mongo-data:/data/db
-
 volumes:
   mongo-data:
