@@ -7,6 +7,8 @@ const Login = lazy(() => import("../pages/Login/Login"));
 const Admin = lazy(() => import("../pages/Admin/Admin"));
 const Register = lazy(() => import("../pages/Register/Register"));
 
+const RiskManager = lazy(() => import("../pages/RiskManager/RiskManager"));
+
 export type Route = {
   path: string;
   component: React.ComponentType;
@@ -34,4 +36,5 @@ export const routes: Route[] = [
     private: true,
     role: "admin",
   },
+  { path: "/risk", component: RiskManager },
 ];
